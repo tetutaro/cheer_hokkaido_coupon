@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="robots" content="noindex,nofollow,noarchive" />
+        <title>ほっかいどう認証店応援クーポン郵便局在庫一覧</title>
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="http://maps.googleapis.com/maps/api/js?key={{api_key}}"></script>
+        <script type="text/javascript">
+$(function() {
+    var latlng = new google.maps.LatLng(43.48, 142.38);
+    var opts = {
+        zoom: 7,
+        center: latlng,
+        overviewMapControl: true,
+        overviewMapControlOptions: {opened: 1},
+        scaleControl: true,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+    };
+    var map = new google.maps.Map(document.getElementById("map"), opts);
+    var markers = [];
+    var infowindows = [];
+    {% for stock in stocks %}
+    var marker = new google.maps.Marker({
+        position: new google.maps.LatLng({{stock['lat']}}, {{stock['lng']}}),
+        {% if stock['stock'] == 0 %}
+        icon: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+        {% elif stock['stock'] < 100 %}
+        icon: "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+        {% else %}
+        icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+        {% endif %}
+        map: map,
+    });
+    setInfoWindow(
+        map,
+        marker,
+        "{{stock['post_office']}}郵便局: 在庫残り {{stock['stock']}} 部"
+    );
+    markers.push(marker);
+    {% endfor %}
+
+    function setInfoWindow(map, marker, content) {
+        var iwin = new google.maps.InfoWindow();
+        google.maps.event.addListener(marker, "click", () => {
+            iwin.setContent(content);
+            iwin.open(map, marker);
+        });
+    };
+});
+        </script>
+        <style>
+            #map {
+                width: 100%;
+                height: 600px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>ほっかいどう認証店応援クーポン郵便局在庫一覧</h1>
+        <div id="map"></div>
+    </body>
+</html>

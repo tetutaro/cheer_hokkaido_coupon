@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "cheer_hokkaido_coupon"
+version = "0.1.0"
+description = "ほっかいどう認証店応援クーポンの郵便局在庫状況を Google Map で可視化する"
+authors = ["Tetsutaro Maruyama <tetsutaro.maruyama@gmail.com>"]
+license = "MIT License"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.28.1"
+camelot-py = {extras = ["cv"], version = "^0.10.1"}
+googlemaps = "^4.6.0"
+retry = "^0.9.2"
+fastapi = "^0.79.1"
+Jinja2 = "^3.1.2"
+uvicorn = {extras = ["standard"], version = "^0.18.2"}
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
